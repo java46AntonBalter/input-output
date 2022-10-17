@@ -29,7 +29,10 @@ public class CopyFilesStandard {
 
 	private static void copyFiles(String[] args) throws Exception {
 		Instant start = Instant.now();
-		long copiedSize = 0;
+		if(args.length < 2) {
+			throw new IllegalArgumentException("Mandatory args are path name of a source file (source file must exist) "
+					+ "and path name of a destination (destination may or may not exist).");
+		}
 		Path source = Path.of(args[0]);
 		if (!source.isAbsolute()) {
 			throw new IllegalArgumentException("Source file " + args[0] + " does not exist");
@@ -44,7 +47,7 @@ public class CopyFilesStandard {
 		} catch (FileNotFoundException e) {
 			throw new Exception("Destination " + destFile.getPath() + " has non-existed directory in the path");
 		}
-		copiedSize = Files.copy(source, out);
+		long copiedSize = Files.copy(source, out);
 		out.close();
 		Instant finish = Instant.now();
 		System.out.print(
