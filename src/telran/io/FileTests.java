@@ -80,14 +80,12 @@ class FileTests {
 		boolean isDirectory = path.isDirectory();
 		if (isDirectory) {
 			System.out.println("<dir> type = " + path.getName());
-		} else {
-			System.out.println("<file> type = " + path.getName());
-		}
-		if (isDirectory) {
 			File[] pathContents = path.listFiles();
 			for (File i : pathContents) {
 				printDirectory(i, indent + 4);
 			}
+		} else {
+			System.out.println("<file> type = " + path.getName());
 		}
 	}
 }
