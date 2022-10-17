@@ -14,20 +14,17 @@ import java.time.temporal.ChronoUnit;
 
 /**
  * Application for copying files based on static method copy of class Files
- * files may be very big (several Gbytes ) 
- * args[0] - source file path
- * args[1] - destination file path
- * args[2] - if exists "overwritten" then destination may be overwritten otherwise may not be
- * Output one of the following:
- * Files have been copied (<amount of bytes> <time of copying>)
- * Source file doesn't exist
+ * files may be very big (several Gbytes ) args[0] - source file path args[1] -
+ * destination file path args[2] - if exists "overwritten" then destination may
+ * be overwritten otherwise may not be Output one of the following: Files have
+ * been copied (<amount of bytes> <time of copying>) Source file doesn't exist
  * Destination can not be overwritten
  *
  */
 public class CopyFilesStandard {
 
 	public static void main(String[] args) {
-		args = new String[]{"d:\\\\Test\\1.txt", "d:\\\\Test\\3.txt", "overwritten"};
+		args = new String[] { "d:\\\\Test\\1.txt", "d:\\\\Test\\3.txt", "overwritten" };
 		try {
 			copyFiles(args);
 		} catch (Exception e) {
@@ -48,7 +45,6 @@ public class CopyFilesStandard {
 			throw new IllegalArgumentException("Destination " + args[1] + " cannot be overwritten");
 		}
 		OutputStream out = null;
-		
 		try {
 			out = new BufferedOutputStream(new FileOutputStream(destFile));
 		} catch (FileNotFoundException e) {
@@ -57,7 +53,8 @@ public class CopyFilesStandard {
 		copiedSize = Files.copy(source, out);
 		out.close();
 		Instant finish = Instant.now();
-		System.out.print("Copied " + copiedSize + " bytes for " + ChronoUnit.MILLIS.between(start, finish) + " milliseconds");
+		System.out.print(
+				"Copied " + copiedSize + " bytes for " + ChronoUnit.MILLIS.between(start, finish) + " milliseconds");
 	}
 
 }
