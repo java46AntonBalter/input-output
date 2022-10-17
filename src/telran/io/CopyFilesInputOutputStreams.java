@@ -27,6 +27,10 @@ public class CopyFilesInputOutputStreams {
 
 	private static void copyFiles(String[] args) throws Exception {
 		Instant start = Instant.now();
+		if(args.length < 2) {
+			throw new IllegalArgumentException("Mandatory args are path name of a source file (source file must exist) "
+					+ "and path name of a destination (destination may or may not exist).");
+		}
 		File sourceFile = new File(args[0]);
 		if (!sourceFile.exists()) {
 			throw new IllegalArgumentException("Source file " + args[0] + " does not exist");
