@@ -60,17 +60,15 @@ class FileTests {
 			System.out.print(' ');
 		}
 		boolean isDirectory = path.isDirectory();
-		if (isDirectory) {
-			System.out.println("<dir> type = " + path.getName());
-		} else {
-			System.out.println("<file> type = " + path.getName());
-		}
 		--level;
 		if (isDirectory) {
+			System.out.println("<dir> type = " + path.getName());
 			File[] pathContents = path.listFiles();
 			for (File i : pathContents) {
 				printDirectory(i, indent + 4, level);
 			}
+		} else {
+			System.out.println("<file> type = " + path.getName());
 		}
 	}
 	private void printDirectory(File path, int indent) {
