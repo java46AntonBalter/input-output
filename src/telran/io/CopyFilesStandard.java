@@ -45,9 +45,15 @@ public class CopyFilesStandard {
 		try {
 			out = new BufferedOutputStream(new FileOutputStream(destFile));
 		} catch (FileNotFoundException e) {
-			throw new Exception("Destination " + destFile.getPath() + " has non-existed directory in the path");
+			throw new Exception("Destination " + args[1] + " has non-existed directory in the path");
 		}
-		long copiedSize = Files.copy(source, out);
+		long copiedSize = 0;
+		try {
+			copiedSize = Files.copy(source, out);
+		} catch (IOException e) {
+			out.close();
+			throw new Exception("Unknown Error " + e.getMessage());
+		}
 		out.close();
 		Instant finish = Instant.now();
 		System.out.print(
