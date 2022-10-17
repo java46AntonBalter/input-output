@@ -51,6 +51,20 @@ class FileTests {
 		System.out.println("**************************************");
 
 	}
+	private void printDirectory(File path, int indent) {
+		for (int i = 0; i < indent; i++) {
+			System.out.print(' ');
+		}
+		if (path.isDirectory()) {
+			System.out.println("<dir> type = " + path.getName());
+			File[] pathContents = path.listFiles();
+			for (File i : pathContents) {
+				printDirectory(i, indent + 4);
+			}
+		} else {
+			System.out.println("<file> type = " + path.getName());
+		}
+	}
 
 	private void printDirectory(File path, int indent, int level) {
 		if (level < 0) {
@@ -59,28 +73,12 @@ class FileTests {
 		for (int i = 0; i < indent; i++) {
 			System.out.print(' ');
 		}
-		boolean isDirectory = path.isDirectory();
 		--level;
-		if (isDirectory) {
+		if (path.isDirectory()) {
 			System.out.println("<dir> type = " + path.getName());
 			File[] pathContents = path.listFiles();
 			for (File i : pathContents) {
 				printDirectory(i, indent + 4, level);
-			}
-		} else {
-			System.out.println("<file> type = " + path.getName());
-		}
-	}
-	private void printDirectory(File path, int indent) {
-		for (int i = 0; i < indent; i++) {
-			System.out.print(' ');
-		}
-		boolean isDirectory = path.isDirectory();
-		if (isDirectory) {
-			System.out.println("<dir> type = " + path.getName());
-			File[] pathContents = path.listFiles();
-			for (File i : pathContents) {
-				printDirectory(i, indent + 4);
 			}
 		} else {
 			System.out.println("<file> type = " + path.getName());
