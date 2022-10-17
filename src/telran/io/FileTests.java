@@ -59,13 +59,14 @@ class FileTests {
 		for (int i = 0; i < indent; i++) {
 			System.out.print(' ');
 		}
-		if (path.isDirectory()) {
+		boolean isDirectory = path.isDirectory();
+		if (isDirectory) {
 			System.out.println("<dir> type = " + path.getName());
 		} else {
 			System.out.println("<file> type = " + path.getName());
 		}
 		--level;
-		if (path.isDirectory()) {
+		if (isDirectory) {
 			File[] pathContents = path.listFiles();
 			for (File i : pathContents) {
 				printDirectory(i, indent + 4, level);
@@ -76,12 +77,13 @@ class FileTests {
 		for (int i = 0; i < indent; i++) {
 			System.out.print(' ');
 		}
-		if (path.isDirectory()) {
+		boolean isDirectory = path.isDirectory();
+		if (isDirectory) {
 			System.out.println("<dir> type = " + path.getName());
 		} else {
 			System.out.println("<file> type = " + path.getName());
 		}
-		if (path.isDirectory()) {
+		if (isDirectory) {
 			File[] pathContents = path.listFiles();
 			for (File i : pathContents) {
 				printDirectory(i, indent + 4);
