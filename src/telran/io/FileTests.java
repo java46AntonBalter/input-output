@@ -4,14 +4,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
 import java.io.*;
+import java.util.Arrays;
+import java.util.Random;
 
 class FileTests {
+	private static final int SPACES_PER_LEVEL = 2;
 	File file;
 
 	@BeforeEach
 	void setUp() {
 		file = new File("dir1/dir2");
 		file.delete();
+		new File("file1.txt").delete();
+
 	}
 
 	@Test
@@ -24,12 +29,7 @@ class FileTests {
 
 	@Test
 	void printDirectoryContent() {
-		printDirectory("d:\\\\Test", -1);
-		printDirectory("d:\\\\Test", 0);
-		printDirectory("d:\\\\Test", 1);
-		printDirectory("d:\\\\Test", 2);
-		printDirectory("d:\\\\Test", 3);
-		printDirectory("d:\\\\Test", 4);
+		printDirectory("..", 2);
 	}
 
 	/**
@@ -41,48 +41,66 @@ class FileTests {
 	 *                 -1 printing all levels
 	 */
 	private void printDirectory(String pathName, int level) {
-		File path = new File(pathName);
-		if (level == -1) {
-			printDirectory(path, 0);
-		} else {
-			printDirectory(path, 0, level);
+		/*
+		 * <dir> type=dir <dir> type=dir <file> type=file <dir> type=dir ...
+		 */
+		File directory = new File(pathName);
+		if (!directory.exists() || !directory.isDirectory()) {
+			throw new RuntimeException(String.format("%s is not directory", pathName));
 		}
-		System.out.println();
-		System.out.println("**************************************");
+
+		try {
+			System.out.println("Content of directory " + directory.getCanonicalPath());
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+
+		Arrays.asList(directory.listFiles())
+				.forEach(n -> displayDirectoryContent(n, level < 0 ? Integer.MAX_VALUE : level, 1));
 
 	}
-	private void printDirectory(File path, int indent) {
-		for (int i = 0; i < indent; i++) {
-			System.out.print(' ');
-		}
-		if (path.isDirectory()) {
-			System.out.println("<dir> type = " + path.getName());
-			File[] pathContents = path.listFiles();
-			for (File i : pathContents) {
-				printDirectory(i, indent + 4);
+
+	private void displayDirectoryContent(File node, int maxLevel, int currentLevel) {
+
+		if (currentLevel <= maxLevel) {
+			boolean flDir = node.isDirectory();
+
+			try {
+				String name = node.getName();
+				System.out.printf("%s%s  type=%s\n", getIndent(currentLevel), name, flDir ? "dir" : "file");
+				if (flDir) {
+					Arrays.stream(node.listFiles())
+							.forEach(n -> displayDirectoryContent(n, maxLevel, currentLevel + 1));
+				}
+			} catch (Exception e) {
+
 			}
-		} else {
-			System.out.println("<file> type = " + path.getName());
 		}
+
 	}
 
-	private void printDirectory(File path, int indent, int level) {
-		if (level < 0) {
-			return;
+	private String getIndent(int level) {
+
+		return " ".repeat(level * SPACES_PER_LEVEL);
+	}
+
+	@Test
+	void printStreamTest() throws Exception {
+		try (PrintStream printStream = new PrintStream("file1.txt");
+				BufferedReader reader = new BufferedReader(new FileReader("file1.txt"));) {
+			printStream.println("Hello");
+			assertEquals("Hello", reader.readLine());
 		}
-		for (int i = 0; i < indent; i++) {
-			System.out.print(' ');
-		}
-		--level;
-		if (path.isDirectory()) {
-			System.out.println("<dir> type = " + path.getName());
-			File[] pathContents = path.listFiles();
-			for (File i : pathContents) {
-				printDirectory(i, indent + 4, level);
-			}
-		} else {
-			System.out.println("<file> type = " + path.getName());
+
+	}
+
+	@Test
+	void printWriterTest() throws Exception {
+		try (PrintWriter printWriter = new PrintWriter("file1.txt");
+				BufferedReader reader = new BufferedReader(new FileReader("file1.txt"));) {
+			printWriter.println("Hello");
+			printWriter.flush();
+			assertEquals("Hello", reader.readLine());
 		}
 	}
 }
-
