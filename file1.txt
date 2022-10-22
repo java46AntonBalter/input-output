@@ -1,1 +1,4 @@
-Hello
+2022-10-22T23:13:02.002731100 DEBUG DebugLog ERROR message placeholder
+2022-10-22T23:13:02.003730800 DEBUG DebugLog WARNING message placeholder
+2022-10-22T23:13:02.003730800 DEBUG DebugLog INFO message placeholder
+2022-10-22T23:13:02.003730800 DEBUG DebugLog DEBUG message placeholder

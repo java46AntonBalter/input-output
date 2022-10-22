@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 import java.io.*;
 import java.util.Arrays;
-import java.util.Random;
 
 class FileTests {
 	private static final int SPACES_PER_LEVEL = 2;
