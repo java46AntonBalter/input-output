@@ -4,49 +4,50 @@ import java.time.Instant;
 import java.time.ZoneId;
 
 public class Logger {
-	public enum Level {
-		TRACE, DEBUG, INFO, WARN, ERROR
+private Level level = Level.INFO;
+private Handler handler;
+private String name;
+public Logger(Handler handler, String name) {
+	this.handler = handler;
+	this.name = name;
+}
+private LoggerRecord createLoggerRecord(String message, Level level) {
+	return new LoggerRecord(Instant.now(), ZoneId.systemDefault().toString(),
+			level, name, message);
+}
+public void setLevel(Level level) {
+	this.level = level;
+}
+public void error(String message) {
+	LoggerRecord loggerRecord = createLoggerRecord(message, Level.ERROR);
+	handler.publish(loggerRecord);
+	
+}
+public void warn(String message) {
+	if (level.compareTo(Level.WARN) <= 0) {
+		LoggerRecord loggerRecord = createLoggerRecord(message, Level.WARN);
+		handler.publish(loggerRecord);
 	}
-
-	private Level level = Level.INFO;
-	private Handler handler;
-	private String name;
-
-	public Logger(Handler handler, String name) {
-		this.handler = handler;
-		this.name = name;
+	
+}
+public void info(String message) {
+	if (level.compareTo(Level.INFO) <= 0) {
+		LoggerRecord loggerRecord = createLoggerRecord(message, Level.INFO);
+		handler.publish(loggerRecord);
 	}
-
-	public void setLevel(Level level) {
-		this.level = level;
+	
+}
+public void debug(String message) {
+	if (level.compareTo(Level.DEBUG) <= 0) {
+		LoggerRecord loggerRecord = createLoggerRecord(message, Level.DEBUG);
+		handler.publish(loggerRecord);
 	}
-
-	public void error(String message) {
-		handler.publish(new LoggerRecord(Instant.now(), ZoneId.systemDefault().getId(), level, name, message));
+	
+}
+public void trace(String message) {
+	if (level.compareTo(Level.TRACE) == 0) {
+		LoggerRecord loggerRecord = createLoggerRecord(message, Level.TRACE);
+		handler.publish(loggerRecord);
 	}
-
-	public void warn(String message) {
-		if (level != Level.ERROR) {
-			handler.publish(new LoggerRecord(Instant.now(), ZoneId.systemDefault().getId(), level, name, message));
-		}
-	}
-
-	public void info(String message) {
-		if (level != Level.ERROR && level != Level.WARN)  {
-			handler.publish(new LoggerRecord(Instant.now(), ZoneId.systemDefault().getId(), level, name, message));
-		}
-	}
-
-	public void debug(String message) {
-		if (level == Level.TRACE || level == Level.DEBUG) {
-			handler.publish(new LoggerRecord(Instant.now(), ZoneId.systemDefault().getId(), level, name, message));
-		}
-	}
-
-	public void trace(String message) {
-		if (level == Level.TRACE) {
-			handler.publish(new LoggerRecord(Instant.now(), ZoneId.systemDefault().getId(), level, name, message));
-		}
-	}
-
+}
 }
