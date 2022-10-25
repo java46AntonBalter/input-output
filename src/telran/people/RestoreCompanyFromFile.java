@@ -14,7 +14,7 @@ public class RestoreCompanyFromFile {
 		CompanyImpl company = null;
 		try {
 			company = restoreCompanyFromPath("company.data");
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
