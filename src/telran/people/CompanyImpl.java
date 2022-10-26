@@ -35,22 +35,11 @@ public class CompanyImpl implements Company {
 
 	@Override
 	public void addEmployee(Employee empl) throws Exception {
-		long id = empl.getId();
-		int salary = empl.getSalary();
-		String dep = empl.getDepartment();
-		if (!empl.equals(getEmployee(id))) {
-			employees.put(empl.getId(), empl);
-			if (!employeesSalary.containsKey(salary)) {
-				employeesSalary.put(salary, new LinkedList<Employee>());
-			}
-			employeesSalary.get(salary).add(empl);
-			if (!employeesDepartment.containsKey(dep)) {
-				employeesDepartment.put(dep, new LinkedList<Employee>());
-			}
-			employeesDepartment.get(dep).add(empl);
-		} else {
-			throw new Exception("Employee already exists");
+		if (employees.putIfAbsent(empl.getId(), empl) == null) {
+			throw new Exception("Employee alredy exists");
 		}
+		employeesSalary.computeIfAbsent(empl.getSalary(), c -> new LinkedList<Employee>()).add(empl);
+		employeesDepartment.computeIfAbsent(empl.getDepartment(), c -> new LinkedList<Employee>()).add(empl);
 	}
 
 	@Override
