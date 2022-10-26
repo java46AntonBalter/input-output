@@ -35,8 +35,8 @@ public class CompanyImpl implements Company {
 
 	@Override
 	public void addEmployee(Employee empl) throws Exception {
-		if (employees.putIfAbsent(empl.getId(), empl) == null) {
-			throw new Exception("Employee alredy exists");
+		if (employees.putIfAbsent(empl.getId(), empl) != null) {
+		throw new Exception("Employee already exists");	
 		}
 		employeesSalary.computeIfAbsent(empl.getSalary(), c -> new LinkedList<Employee>()).add(empl);
 		employeesDepartment.computeIfAbsent(empl.getDepartment(), c -> new LinkedList<Employee>()).add(empl);
