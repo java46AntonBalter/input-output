@@ -41,11 +41,11 @@ public class CompanyImpl implements Company {
 		if (!empl.equals(getEmployee(id))) {
 			employees.put(empl.getId(), empl);
 			if (!employeesSalary.containsKey(salary)) {
-				employeesSalary.put(salary, new ArrayList<Employee>());
+				employeesSalary.put(salary, new LinkedList<Employee>());
 			}
 			employeesSalary.get(salary).add(empl);
 			if (!employeesDepartment.containsKey(dep)) {
-				employeesDepartment.put(dep, new ArrayList<Employee>());
+				employeesDepartment.put(dep, new LinkedList<Employee>());
 			}
 			employeesDepartment.get(dep).add(empl);
 		} else {

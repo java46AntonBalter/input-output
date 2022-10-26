@@ -16,7 +16,9 @@ public class CreateRandomCompany {
 
 	public static void main(String[] args) throws IOException {
 		File compFile = new File("company.data");
-		compFile.delete();
+		if(compFile.exists()) {
+			compFile.delete();
+		}
 		try {
 			generateProperties();
 		} catch (FileNotFoundException e) {
@@ -51,7 +53,7 @@ public class CreateRandomCompany {
         	deps = props.getProperty("Departments").split(",");
         }
 		
-		IntStream.range(1, nEmp + 1).boxed().sorted().forEach(i -> {
+		IntStream.range(1, nEmp + 1).boxed().distinct().sorted().forEach(i -> {
 			try {
 				company.addEmployee(new Employee(i, "name" + i, deps[generateRandNumber(0, deps.length - 1)], generateRandNumber(minSal, maxSal)));
 			} catch (Exception e) {

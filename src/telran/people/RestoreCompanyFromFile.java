@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.TreeMap;
 
 public class RestoreCompanyFromFile {
@@ -24,13 +24,13 @@ public class RestoreCompanyFromFile {
 		AverageSalaryMap.put(getAverage(company, "Management"), "Management");
 		AverageSalaryMap.put(getAverage(company, "Sales"), "Sales");
 		
-		ArrayList<Employee>  highestSalaryDep = (ArrayList<Employee>) company.getEmployeesDepartment(AverageSalaryMap.lastEntry().getValue());
-		highestSalaryDep.stream().distinct().sorted((o1, o2) -> (int) (o1.getId() - o2.getId())).forEach(t -> System.out.println(t.toString())); 
+		LinkedList<Employee>  highestSalaryDep = (LinkedList<Employee>) company.getEmployeesDepartment(AverageSalaryMap.lastEntry().getValue());
+		highestSalaryDep.stream().distinct().forEach(t -> System.out.println(t.toString())); 
 		
 	}
 
 	private static Double getAverage(CompanyImpl company, String department) {
-		ArrayList<Employee> qaEmployeesList = (ArrayList<Employee>) company.getEmployeesDepartment(department);
+		LinkedList<Employee> qaEmployeesList = (LinkedList<Employee>) company.getEmployeesDepartment(department);
 		return qaEmployeesList.stream().mapToInt(e -> e.getSalary()).summaryStatistics().getAverage();
 	}
 
