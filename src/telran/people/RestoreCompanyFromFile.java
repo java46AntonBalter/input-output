@@ -18,15 +18,11 @@ public class RestoreCompanyFromFile {
 			e.printStackTrace();
 		}
 		
-		Double qaAverageSalary = getAverage(company, "QA");
-	    Double devAverageSalary = getAverage(company, "Development");
-		Double managmentAverageSalary = getAverage(company, "Management");
-		Double salesAverageSalary = getAverage(company, "Sales");
 		TreeMap<Double, String> AverageSalaryMap = new TreeMap<>();
-		AverageSalaryMap.put(qaAverageSalary, "QA");
-		AverageSalaryMap.put(devAverageSalary, "Development");
-		AverageSalaryMap.put(managmentAverageSalary, "Management");
-		AverageSalaryMap.put(salesAverageSalary, "Sales");
+		AverageSalaryMap.put(getAverage(company, "QA"), "QA");
+		AverageSalaryMap.put(getAverage(company, "Development"), "Development");
+		AverageSalaryMap.put(getAverage(company, "Management"), "Management");
+		AverageSalaryMap.put(getAverage(company, "Sales"), "Sales");
 		
 		ArrayList<Employee>  highestSalaryDep = (ArrayList<Employee>) company.getEmployeesDepartment(AverageSalaryMap.lastEntry().getValue());
 		highestSalaryDep.stream().distinct().sorted((o1, o2) -> (int) (o1.getId() - o2.getId())).forEach(t -> System.out.println(t.toString())); 
