@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import telran.people.Employee;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class StreamTest {
