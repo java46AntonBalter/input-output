@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 public class SimpleStreamHandler implements Handler {
 	
-	private PrintStream stream;
+	 PrintStream stream;
 	public SimpleStreamHandler(PrintStream stream) {
 		super();
 		this.stream = stream;
